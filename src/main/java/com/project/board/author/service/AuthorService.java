@@ -21,8 +21,12 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
-    public void create(Author author){
+    public void save(Author author){
         authorRepository.save(author);
+    }
+
+    public Author findById(Long id) {
+        return authorRepository.findById(id).orElseGet(null);
     }
 
 

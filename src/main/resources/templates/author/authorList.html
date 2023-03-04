@@ -42,13 +42,11 @@
                         <td th:text="${author.id}"></td>
                         <td th:text="${author.name}"></td>
                         <td th:text="${author.email}"></td>
-                        <td>상세보기</td>
+                        <td><a th:href="@{'/author/findById?id=' + ${author.id}}">상세보기</a></td>
                     </tr>
-
                 </tbody>
             </table>
         </div>
     </div>
-
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.project.board.post.domain;
 
+import com.project.board.author.domain.Author;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,4 +9,5 @@ import lombok.Setter;
 public class PostDto {
     private String title;
     private String contents;
+    private String email;
 }

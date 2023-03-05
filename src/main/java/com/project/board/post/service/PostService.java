@@ -30,9 +30,12 @@ public class PostService {
     }
 
     public void delete(Long id){
-        Post post = postRepository.findById(id).orElse(null);
-        postRepository.delete(post);
+//        Post post = postRepository.findById(id).orElse(null);
+        postRepository.delete(findById(id));
     }
 
+    public List<Post> findByAuthor_id(Long author_id){
+        return postRepository.findByAuthor_id(author_id);
+    }
 
 }

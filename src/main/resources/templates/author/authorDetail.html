@@ -37,6 +37,7 @@
                     <th class="col-md-4">password</th>
                     <th class="col-md-5">role</th>
                     <th class="col-md-6">createDate</th>
+                    <th class="col-md-7">작성글수</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +48,8 @@
                     <td th:text="${details.password}"></td>
                     <td th:text="${details.role}"></td>
                     <td th:text="${details.createDate}"></td>
+<!--                    <td th:text="${details.count}"></td>-->
+                    <td th:text="${#lists.size(details.posts)}"></td>
                 </tr>
             </tbody>
         </table>

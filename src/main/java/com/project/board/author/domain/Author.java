@@ -1,5 +1,6 @@
 package com.project.board.author.domain;
 
+import com.project.board.post.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,6 +29,15 @@ public class Author {
 
     private String role;
     private LocalDateTime createDate;
+
+//    // AuthorController의 authorDetail의 방법 1
+//    @Transient
+//    @Setter
+//    private int count;
+
+    // AuthorController의 authorDetail의 방법 2
+    @OneToMany(mappedBy = "author")
+    private List<Post> posts = new ArrayList<>();
 
     @Builder
     public Author(String name, String email, String password, String role, LocalDateTime createDate){

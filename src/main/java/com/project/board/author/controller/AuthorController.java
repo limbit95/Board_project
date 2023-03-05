@@ -3,26 +3,28 @@ package com.project.board.author.controller;
 import com.project.board.author.domain.Author;
 import com.project.board.author.domain.AuthorDto;
 import com.project.board.author.service.AuthorService;
-import lombok.Getter;
-import lombok.Value;
+import com.project.board.post.domain.Post;
+import com.project.board.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 public class AuthorController {
 
     private final AuthorService authorService;
+    private final PostService postService;
 
     @Autowired
-    public AuthorController(AuthorService authorService) {
+    public AuthorController(AuthorService authorService, PostService postService) {
         this.authorService = authorService;
+        this.postService = postService;
     }
 
     @GetMapping("/author/list")
@@ -67,11 +69,26 @@ public class AuthorController {
 
     @GetMapping("/author/findById")
     public String authorDetail(@RequestParam(value = "id") Long id, Model model) {
-        model.addAttribute("details", this.authorService.findById(id));
+
+//        // 방법 1
+//        Author author =this.authorService.findById(id);
+//        List<Post> posts = postService.findByAuthor_id(id);
+//        author.setCount(posts.size());
+
+        // 방법 2 : author 객체를 최초 조회할 때부터 post와 join을 걸어 가져온다
+        Author author = authorService.findById(id);
+
+        // 방법 3 :
+//        Author author = authorService.findAllFetchJoin(id);
+
+        
+        model.addAttribute("details", author); // 어떤 방법을 사용하든 고정값
+
+//        // 방법 1
+//        model.addAttribute("details", this.authorService.findById(id));
 
         return "/author/authorDetail";
     }
-
     
 
 }

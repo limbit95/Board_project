@@ -30,13 +30,15 @@
         <tr>
           <th class="col-md-1">No</th>
           <th class="col-md-2">title</th>
-          <th class="col-md-3">contents</th>
+          <th class="col-md-3">작성자</th>
+          <th class="col-md-4">contents</th>
         </tr>
       </thead>
       <tbody>
         <tr th:each="post : ${posts}">
           <td th:text="${post.id}"></td>
           <td th:text="${post.title}"></td>
+          <td th:text="${post.author.name}"></td>
           <td><a th:href="@{'/post/findById?id=' + ${post.id}}">상세보기</a></td>
         </tr>
       </tbody>

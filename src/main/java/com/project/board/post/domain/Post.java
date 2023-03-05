@@ -1,5 +1,6 @@
 package com.project.board.post.domain;
 
+import com.project.board.author.domain.Author;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,11 +21,18 @@ public class Post {
     private String contents;
     private LocalDateTime createDate;
 
+    // Lazy는 author 객체를 사용하는 곳에서만 author 객체를 조회해서 가져온다
+    // 그러나 Lazy를 걸지 않으면 기본 타입 eager인데, eager는 무조건 참조객체를 조회해서 가져온다.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name = "authorId", referencedColumnName = "id")
+    private Author author;
+
     @Builder
-    public Post(String title, String contents){
+    public Post(String title, String contents, Author author){
         this.title = title;
         this.contents = contents;
         this.createDate = createDate.now();
+        this.author = author;
     }
 
 

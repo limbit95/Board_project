@@ -25,9 +25,14 @@ public class AuthorService {
         authorRepository.save(author);
     }
 
+    public Author findByEmail(String email){
+        return authorRepository.findByEmail(email);
+    }
+
     public Author findById(Long id) {
         return authorRepository.findById(id).orElseGet(null);
     }
+
 
 
 

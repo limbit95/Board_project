@@ -5,8 +5,10 @@ import com.project.board.author.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,11 +31,20 @@ public class AuthorService {
         return authorRepository.findByEmail(email);
     }
 
-    public Author findById(Long id) {
-        return authorRepository.findById(id).orElseGet(null);
+    public Optional<Author> findById(Long id) throws Exception {
+        // Day 35
+//        try{
+//            return authorRepository.findById(id).orElseThrow(Exception::new);
+//        }catch(Exception e){
+//            throw new Exception("Not Found Exception");
+//        }
+
+        return authorRepository.findById(id);
     }
 
-
+    public List<Author> findAllFetchJoin(){
+        return authorRepository.findAllFetchJoin();
+    }
 
 
 

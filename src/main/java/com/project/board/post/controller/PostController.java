@@ -6,11 +6,17 @@ import com.project.board.post.domain.Post;
 import com.project.board.post.domain.PostDto;
 import com.project.board.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.joda.LocalDateTimeParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class PostController {
@@ -26,8 +32,19 @@ public class PostController {
 
     @GetMapping("/post/list")
     public String postList(Model model){
-        model.addAttribute("posts", this.postService.findAll());
+//        model.addAttribute("posts", this.postService.findAll());
 
+        // 방법 1
+        model.addAttribute("posts", this.postService.findByScheduled());
+
+//        // 방법 2
+//        List<Post> new_list = new ArrayList<>();
+//        for(Post a : postService.findAll()){
+//            if(a.getScheduled() == null){
+//                new_list.add(a);
+//            }
+//        }
+//        model.addAttribute("posts", new_list);
 
         return "/post/postList";
     }
@@ -42,9 +59,21 @@ public class PostController {
     ){
         Author author = authorService.findByEmail(postDto.getEmail());
 
-        Post post = Post.builder().title(postDto.getTitle())
+        LocalDateTime dateTime = LocalDateTime.now();
+
+        System.out.println("schejuled : " + postDto.getScheduled());
+        if(postDto.getScheduled() != null){
+            String str = postDto.getScheduledTime();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            dateTime = LocalDateTime.parse(str, formatter);
+        }
+
+        Post post = Post.builder()
+                .title(postDto.getTitle())
                 .contents(postDto.getContents())
                 .author(author)
+                .scheduled(postDto.getScheduled())
+                .scheduledTime(dateTime)
                 .build();
 
         postService.save(post);
@@ -73,5 +102,7 @@ public class PostController {
 //        this.postService.delete(id);
 //        return "redirect:/";
 //    }
+
+
 
 }

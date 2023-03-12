@@ -12,6 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 // Aspect를 통해 AOP 적용
 @Aspect
@@ -31,15 +32,13 @@ public class AopLogService {
         HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         jsonObject.put("method name", proceedingJoinPoint.getSignature().getName());
         jsonObject.put("CRUD name", req.getMethod());
-        log.info("request 정보 " + jsonObject);
 
-        JSONObject jsonObject2 = new JSONObject();
-        while(req.getParameterNames().hasMoreElements()){
-            String body1 = req.getParameterNames().nextElement();
-            String body2 = req.getParameterNames().nextElement().replaceAll("\\.", "-");
-            jsonObject2.put(body2, req.getParameter(body1));
+        Enumeration<String> req_body = req.getParameterNames();
+        while(req_body.hasMoreElements()){
+            String body = req_body.nextElement();
+            jsonObject.put(body, req.getParameter(body));
         }
-        log.info("request parameters" + jsonObject2);
+        log.info("request parameters" + jsonObject);
 
         return proceedingJoinPoint.proceed();
     }

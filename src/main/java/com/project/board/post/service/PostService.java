@@ -38,4 +38,8 @@ public class PostService {
         return postRepository.findByAuthor_id(author_id);
     }
 
+    public List<Post> findByScheduled(){
+        return postRepository.findByScheduled(null);
+    }
+
 }

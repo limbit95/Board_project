@@ -4,6 +4,7 @@ import com.project.board.author.domain.Author;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,12 +28,19 @@ public class Post {
     @JoinColumn(nullable = false, name = "authorId", referencedColumnName = "id")
     private Author author;
 
+    @Setter
+    private String scheduled;
+
+    private LocalDateTime scheduledTime;
+
     @Builder
-    public Post(String title, String contents, Author author){
+    public Post(String title, String contents, Author author, String scheduled, LocalDateTime scheduledTime){
         this.title = title;
         this.contents = contents;
         this.createDate = createDate.now();
         this.author = author;
+        this.scheduled = scheduled;
+        this.scheduledTime = scheduledTime;
     }
 
 
